@@ -1,0 +1,122 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sesame-ml"
+version = "0.1.0"
+description = "Simulation, learning, evaluation, planning, and remote policy runtime for Sesame Robot"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+authors = [{ name = "Sesame ML contributors" }]
+maintainers = [{ name = "Sesame ML contributors" }]
+keywords = ["robotics", "quadruped", "mujoco", "reinforcement-learning", "vla"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: MacOS",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "gymnasium>=1.1,<2",
+  "mujoco>=3.3.4,<4",
+  "numpy>=1.26,<3",
+  "Pillow>=10,<13",
+  "msgpack>=1.1,<2",
+  "PyYAML>=6,<7",
+  "websockets>=14,<17",
+]
+
+[project.optional-dependencies]
+train = [
+  "stable-baselines3>=2.7,<3",
+  "tensorboard>=2.18,<3",
+  "torch>=2.7,<3",
+]
+playground = [
+  "jax==0.6.2",
+  "jaxlib==0.6.2",
+  "mujoco==3.6.0",
+  "mujoco-mjx==3.6.0",
+  "playground==0.2.0",
+  "warp-lang==1.11.0",
+]
+playground-cuda = [
+  "jax[cuda12]==0.6.2",
+  "jaxlib==0.6.2",
+  "mujoco==3.6.0",
+  "mujoco-mjx==3.6.0",
+  "playground[cuda]==0.2.0",
+  "warp-lang==1.11.0",
+]
+data = [
+  "h5py>=3.12,<4",
+  "pyarrow>=19,<24",
+]
+video = [
+  "av>=14,<17",
+  "imageio>=2.37,<3",
+  "imageio-ffmpeg>=0.6,<1",
+]
+hardware = [
+  "adafruit-circuitpython-bno08x>=1.2,<2",
+  "adafruit-extended-bus>=1.0,<2",
+  "opencv-python-headless>=4.10,<5",
+  "smbus2>=0.5,<1",
+]
+dev = [
+  "pytest>=8.3,<10",
+  "pytest-asyncio>=0.25,<2",
+  "ruff>=0.11,<1",
+]
+
+[project.scripts]
+sesame-ml = "sesame_ml.cli:main"
+sesame-ml-bridge = "sesame_ml.bridge_cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sesame_ml"]
+include = [
+  "src/sesame_ml/**/*.py",
+  "src/sesame_ml/**/*.xml",
+  "src/sesame_ml/**/*.yaml",
+  "src/sesame_ml/**/*.json",
+  "src/sesame_ml/**/*.txt",
+  "src/sesame_ml/**/*.urdf",
+  "src/sesame_ml/**/*.stl",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/.github/workflows/*.yml",
+  "/.gitignore",
+  "/docs/**",
+  "/integrations/**",
+  "/scripts/**",
+  "/src/**",
+  "/tests/**",
+  "/CHANGELOG.md",
+  "/CITATION.cff",
+  "/CONTRIBUTING.md",
+  "/LICENSE",
+  "/NOTICE",
+  "/README.md",
+  "/SECURITY.md",
+  "/pyproject.toml",
+  "/uv.lock",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

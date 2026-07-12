@@ -1,0 +1,419 @@
+<?xml version="1.0"?>
+<!--
+  Sesame quadruped production URDF.
+
+  Frame convention: +x forward, +y left, +z up.
+  Lengths are metres, angles are radians, mass is kilograms, and effort is N m.
+  Revolute joint positions are the physical servo angles used by the firmware and wire
+  protocol.  Each joint origin contains its MuJoCo `ref` offset so no application-side
+  zero/sign conversion is needed.
+
+  Canonical firmware/PWM order: R1, R2, L1, L2, R4, R3, L3, L4.
+-->
+<robot name="sesame_quadruped">
+  <material name="sesame_orange">
+    <color rgba="1.0 0.36 0.035 1.0"/>
+  </material>
+  <material name="sesame_charcoal">
+    <color rgba="0.12 0.14 0.16 1.0"/>
+  </material>
+  <material name="sesame_foot">
+    <color rgba="0.12 0.12 0.12 1.0"/>
+  </material>
+
+  <link name="base">
+    <inertial>
+      <origin xyz="0 0 0.006" rpy="0 0 0"/>
+      <mass value="0.280"/>
+      <inertia ixx="0.000143" ixy="0" ixz="0"
+               iyy="0.000178" iyz="0" izz="0.000264"/>
+    </inertial>
+    <visual name="internal_frame_visual">
+      <origin xyz="0.0256198 0.00238918 -0.0151121"
+              rpy="1.57079632679 0 3.14159265359"/>
+      <geometry>
+        <mesh filename="../meshes/Internal-Frame-v121.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="sesame_charcoal"/>
+    </visual>
+    <visual name="bottom_cover_visual">
+      <origin xyz="0.0256198 0.00238918 -0.0151121"
+              rpy="1.57079632679 0 3.14159265359"/>
+      <geometry>
+        <mesh filename="../meshes/Bottom-Cover-v121.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="sesame_orange"/>
+    </visual>
+    <visual name="top_cover_visual">
+      <origin xyz="0.0256198 0.00238918 -0.0151121"
+              rpy="1.57079632679 0 3.14159265359"/>
+      <geometry>
+        <mesh filename="../meshes/Top-Cover-Enclosed-v117.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="sesame_orange"/>
+    </visual>
+    <collision name="body_collision">
+      <origin xyz="0.001 0.004 0.0145" rpy="0 0 0"/>
+      <geometry><box size="0.084 0.068 0.062"/></geometry>
+    </collision>
+  </link>
+
+  <link name="r1_link">
+    <inertial>
+      <origin xyz="-0.010 -0.016 0.005" rpy="0 0 0"/>
+      <mass value="0.020"/>
+      <inertia ixx="0.0000022" ixy="0" ixz="0"
+               iyy="0.0000048" iyz="0" izz="0.0000057"/>
+    </inertial>
+    <visual name="r1_visual">
+      <origin xyz="0.0173524 0.0151982 0.0330178"
+              rpy="-1.57079632557 0 2.35619448904"/>
+      <geometry>
+        <mesh filename="../meshes/R1-v117.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="sesame_orange"/>
+    </visual>
+    <!-- Three primitives reproduce the MuJoCo capsule envelope. -->
+    <collision name="r1_collision_cylinder">
+      <origin xyz="-0.0103552 -0.01568755 0.008895"
+              rpy="1.12880756346 0 -0.583435923304"/>
+      <geometry><cylinder radius="0.010" length="0.041590884436"/></geometry>
+    </collision>
+    <collision name="r1_collision_proximal_cap">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.010"/></geometry>
+    </collision>
+    <collision name="r1_collision_distal_cap">
+      <origin xyz="-0.0207104 -0.0313751 0.01779" rpy="0 0 0"/>
+      <geometry><sphere radius="0.010"/></geometry>
+    </collision>
+  </link>
+
+  <link name="r2_link">
+    <inertial>
+      <origin xyz="-0.010 0.016 0.005" rpy="0 0 0"/>
+      <mass value="0.020"/>
+      <inertia ixx="0.0000022" ixy="0" ixz="0"
+               iyy="0.0000048" iyz="0" izz="0.0000057"/>
+    </inertial>
+    <visual name="r2_visual">
+      <origin xyz="0.0173524 -0.0151982 0.0330178"
+              rpy="-1.57079632557 0 -2.35619448904"/>
+      <geometry>
+        <mesh filename="../meshes/R2-v117.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="sesame_orange"/>
+    </visual>
+    <collision name="r2_collision_cylinder">
+      <origin xyz="-0.0103552 0.01568755 0.008895"
+              rpy="1.12880756346 0 -2.55815673029"/>
+      <geometry><cylinder radius="0.010" length="0.041590884436"/></geometry>
+    </collision>
+    <collision name="r2_collision_proximal_cap">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.010"/></geometry>
+    </collision>
+    <collision name="r2_collision_distal_cap">
+      <origin xyz="-0.0207104 0.0313751 0.01779" rpy="0 0 0"/>
+      <geometry><sphere radius="0.010"/></geometry>
+    </collision>
+  </link>
+
+  <link name="l1_link">
+    <inertial>
+      <origin xyz="-0.010 0.016 0.005" rpy="0 0 0"/>
+      <mass value="0.020"/>
+      <inertia ixx="0.0000022" ixy="0" ixz="0"
+               iyy="0.0000048" iyz="0" izz="0.0000057"/>
+    </inertial>
+    <visual name="l1_visual">
+      <origin xyz="0.0173524 -0.0151982 0.0330178"
+              rpy="-1.57079632557 0 -2.35619448904"/>
+      <geometry>
+        <mesh filename="../meshes/L1-v117.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="sesame_orange"/>
+    </visual>
+    <collision name="l1_collision_cylinder">
+      <origin xyz="-0.0103552 0.01568755 0.008895"
+              rpy="1.12880756346 0 -2.55815673029"/>
+      <geometry><cylinder radius="0.010" length="0.041590884436"/></geometry>
+    </collision>
+    <collision name="l1_collision_proximal_cap">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.010"/></geometry>
+    </collision>
+    <collision name="l1_collision_distal_cap">
+      <origin xyz="-0.0207104 0.0313751 0.01779" rpy="0 0 0"/>
+      <geometry><sphere radius="0.010"/></geometry>
+    </collision>
+  </link>
+
+  <link name="l2_link">
+    <inertial>
+      <origin xyz="-0.010 -0.016 0.005" rpy="0 0 0"/>
+      <mass value="0.020"/>
+      <inertia ixx="0.0000022" ixy="0" ixz="0"
+               iyy="0.0000048" iyz="0" izz="0.0000057"/>
+    </inertial>
+    <visual name="l2_visual">
+      <origin xyz="0.0173524 0.0151982 0.0330178"
+              rpy="-1.57079632557 0 2.35619448904"/>
+      <geometry>
+        <mesh filename="../meshes/L2-v117.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="sesame_orange"/>
+    </visual>
+    <collision name="l2_collision_cylinder">
+      <origin xyz="-0.0103552 -0.01568755 0.008895"
+              rpy="1.12880756346 0 -0.583435923304"/>
+      <geometry><cylinder radius="0.010" length="0.041590884436"/></geometry>
+    </collision>
+    <collision name="l2_collision_proximal_cap">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.010"/></geometry>
+    </collision>
+    <collision name="l2_collision_distal_cap">
+      <origin xyz="-0.0207104 -0.0313751 0.01779" rpy="0 0 0"/>
+      <geometry><sphere radius="0.010"/></geometry>
+    </collision>
+  </link>
+
+  <link name="r4_link">
+    <inertial>
+      <origin xyz="-0.002 0.024 -0.016" rpy="0 0 0"/>
+      <mass value="0.006"/>
+      <inertia ixx="0.00000023" ixy="0" ixz="0"
+               iyy="0.00000175" iyz="0" izz="0.00000186"/>
+    </inertial>
+    <visual name="r4_visual">
+      <origin xyz="-0.0152278 -0.0598468 -0.00728707"
+              rpy="1.57079632679 1.57079632679 0"/>
+      <geometry>
+        <mesh filename="../meshes/R4-v117.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="sesame_orange"/>
+    </visual>
+    <collision name="r4_shin_cylinder">
+      <origin xyz="-0.0008 0.02003 -0.008"
+              rpy="1.95051169091 0 -3.10167378104"/>
+      <geometry><cylinder radius="0.006" length="0.0431666954955"/></geometry>
+    </collision>
+    <collision name="r4_shin_proximal_cap">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.006"/></geometry>
+    </collision>
+    <visual name="r4_foot_visual">
+      <origin xyz="-0.0016 0.04006 -0.016" rpy="0 0 0"/>
+      <geometry><sphere radius="0.007"/></geometry><material name="sesame_foot"/>
+    </visual>
+    <collision name="r4_foot_collision">
+      <origin xyz="-0.0016 0.04006 -0.016" rpy="0 0 0"/>
+      <geometry><sphere radius="0.007"/></geometry>
+    </collision>
+  </link>
+
+  <link name="r3_link">
+    <inertial>
+      <origin xyz="-0.002 -0.024 -0.016" rpy="0 0 0"/>
+      <mass value="0.006"/>
+      <inertia ixx="0.00000023" ixy="0" ixz="0"
+               iyy="0.00000175" iyz="0" izz="0.00000186"/>
+    </inertial>
+    <visual name="r3_visual">
+      <origin xyz="-0.0152278 0.0598468 -0.00728707"
+              rpy="1.57079632679 1.57079632679 0"/>
+      <geometry>
+        <mesh filename="../meshes/R3-v117.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="sesame_orange"/>
+    </visual>
+    <collision name="r3_shin_cylinder">
+      <origin xyz="-0.0008 -0.02003 -0.008"
+              rpy="1.95051169091 0 -0.0399188725485"/>
+      <geometry><cylinder radius="0.006" length="0.0431666954955"/></geometry>
+    </collision>
+    <collision name="r3_shin_proximal_cap">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.006"/></geometry>
+    </collision>
+    <visual name="r3_foot_visual">
+      <origin xyz="-0.0016 -0.04006 -0.016" rpy="0 0 0"/>
+      <geometry><sphere radius="0.007"/></geometry><material name="sesame_foot"/>
+    </visual>
+    <collision name="r3_foot_collision">
+      <origin xyz="-0.0016 -0.04006 -0.016" rpy="0 0 0"/>
+      <geometry><sphere radius="0.007"/></geometry>
+    </collision>
+  </link>
+
+  <link name="l3_link">
+    <inertial>
+      <origin xyz="-0.002 0.024 -0.016" rpy="0 0 0"/>
+      <mass value="0.006"/>
+      <inertia ixx="0.00000023" ixy="0" ixz="0"
+               iyy="0.00000175" iyz="0" izz="0.00000186"/>
+    </inertial>
+    <visual name="l3_visual">
+      <origin xyz="-0.0152278 -0.0598468 -0.00728707"
+              rpy="1.57079632679 1.57079632679 0"/>
+      <geometry>
+        <mesh filename="../meshes/L3-v117.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="sesame_orange"/>
+    </visual>
+    <collision name="l3_shin_cylinder">
+      <origin xyz="-0.0008 0.02003 -0.008"
+              rpy="1.95051169091 0 -3.10167378104"/>
+      <geometry><cylinder radius="0.006" length="0.0431666954955"/></geometry>
+    </collision>
+    <collision name="l3_shin_proximal_cap">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.006"/></geometry>
+    </collision>
+    <visual name="l3_foot_visual">
+      <origin xyz="-0.0016 0.04006 -0.016" rpy="0 0 0"/>
+      <geometry><sphere radius="0.007"/></geometry><material name="sesame_foot"/>
+    </visual>
+    <collision name="l3_foot_collision">
+      <origin xyz="-0.0016 0.04006 -0.016" rpy="0 0 0"/>
+      <geometry><sphere radius="0.007"/></geometry>
+    </collision>
+  </link>
+
+  <link name="l4_link">
+    <inertial>
+      <origin xyz="-0.002 -0.024 -0.016" rpy="0 0 0"/>
+      <mass value="0.006"/>
+      <inertia ixx="0.00000023" ixy="0" ixz="0"
+               iyy="0.00000175" iyz="0" izz="0.00000186"/>
+    </inertial>
+    <visual name="l4_visual">
+      <origin xyz="-0.0152278 0.0598468 -0.00728707"
+              rpy="1.57079632679 1.57079632679 0"/>
+      <geometry>
+        <mesh filename="../meshes/L4-v117.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="sesame_orange"/>
+    </visual>
+    <collision name="l4_shin_cylinder">
+      <origin xyz="-0.0008 -0.02003 -0.008"
+              rpy="1.95051169091 0 -0.0399188725485"/>
+      <geometry><cylinder radius="0.006" length="0.0431666954955"/></geometry>
+    </collision>
+    <collision name="l4_shin_proximal_cap">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.006"/></geometry>
+    </collision>
+    <visual name="l4_foot_visual">
+      <origin xyz="-0.0016 -0.04006 -0.016" rpy="0 0 0"/>
+      <geometry><sphere radius="0.007"/></geometry><material name="sesame_foot"/>
+    </visual>
+    <collision name="l4_foot_collision">
+      <origin xyz="-0.0016 -0.04006 -0.016" rpy="0 0 0"/>
+      <geometry><sphere radius="0.007"/></geometry>
+    </collision>
+  </link>
+
+  <link name="r3_foot"/>
+  <link name="r4_foot"/>
+  <link name="l3_foot"/>
+  <link name="l4_foot"/>
+  <link name="imu"/>
+  <link name="front_camera"/>
+
+  <!-- Actuated joints are deliberately serialized in firmware/PWM channel order. -->
+  <joint name="R1" type="revolute">
+    <origin xyz="0.0240966 -0.0206276 0.0179057"
+            rpy="3.14159265359 0 0.785398163397"/>
+    <parent link="base"/><child link="r1_link"/><axis xyz="0 0 -1"/>
+    <limit lower="0.785398163" upper="3.141592654" effort="0.18" velocity="10.471975512"/>
+    <dynamics damping="0.0025" friction="0.002"/>
+  </joint>
+  <joint name="R2" type="revolute">
+    <origin xyz="-0.0243034 -0.0206276 0.0179057"
+            rpy="3.14159265359 0 -0.785398163397"/>
+    <parent link="base"/><child link="r2_link"/><axis xyz="0 0 -1"/>
+    <limit lower="0" upper="2.356194490" effort="0.18" velocity="10.471975512"/>
+    <dynamics damping="0.0025" friction="0.002"/>
+  </joint>
+  <joint name="L1" type="revolute">
+    <origin xyz="0.0240966 0.0301724 0.0179057"
+            rpy="3.14159265359 0 2.35619449019"/>
+    <parent link="base"/><child link="l1_link"/><axis xyz="0 0 -1"/>
+    <limit lower="0" upper="2.356194490" effort="0.18" velocity="10.471975512"/>
+    <dynamics damping="0.0025" friction="0.002"/>
+  </joint>
+  <joint name="L2" type="revolute">
+    <origin xyz="-0.0243034 0.0301724 0.0179057"
+            rpy="3.14159265359 0 -2.35619449019"/>
+    <parent link="base"/><child link="l2_link"/><axis xyz="0 0 -1"/>
+    <limit lower="0.785398163" upper="3.141592654" effort="0.18" velocity="10.471975512"/>
+    <dynamics damping="0.0025" friction="0.002"/>
+  </joint>
+  <joint name="R4" type="revolute">
+    <origin xyz="-0.0207104 0.0313751 0.01779"
+            rpy="1.57079632557 0 2.35619448904"/>
+    <parent link="r2_link"/><child link="r4_link"/><axis xyz="0 0 -1"/>
+    <limit lower="0" upper="3.141592654" effort="0.18" velocity="10.471975512"/>
+    <dynamics damping="0.0025" friction="0.002"/>
+  </joint>
+  <joint name="R3" type="revolute">
+    <origin xyz="-0.0207104 -0.0313751 0.01779"
+            rpy="1.57079632557 0 0.785398164546"/>
+    <parent link="r1_link"/><child link="r3_link"/><axis xyz="0 0 -1"/>
+    <limit lower="0" upper="3.141592654" effort="0.18" velocity="10.471975512"/>
+    <dynamics damping="0.0025" friction="0.002"/>
+  </joint>
+  <joint name="L3" type="revolute">
+    <origin xyz="-0.0207104 0.0313751 0.01779"
+            rpy="1.57079632557 0 2.35619448904"/>
+    <parent link="l1_link"/><child link="l3_link"/><axis xyz="0 0 -1"/>
+    <limit lower="0" upper="3.141592654" effort="0.18" velocity="10.471975512"/>
+    <dynamics damping="0.0025" friction="0.002"/>
+  </joint>
+  <joint name="L4" type="revolute">
+    <origin xyz="-0.0207104 -0.0313751 0.01779"
+            rpy="1.57079632557 0 0.785398164546"/>
+    <parent link="l2_link"/><child link="l4_link"/><axis xyz="0 0 -1"/>
+    <limit lower="0" upper="3.141592654" effort="0.18" velocity="10.471975512"/>
+    <dynamics damping="0.0025" friction="0.002"/>
+  </joint>
+
+  <joint name="r3_foot_fixed" type="fixed">
+    <origin xyz="-0.0016 -0.04006 -0.016" rpy="0 0 0"/>
+    <parent link="r3_link"/><child link="r3_foot"/>
+  </joint>
+  <joint name="r4_foot_fixed" type="fixed">
+    <origin xyz="-0.0016 0.04006 -0.016" rpy="0 0 0"/>
+    <parent link="r4_link"/><child link="r4_foot"/>
+  </joint>
+  <joint name="l3_foot_fixed" type="fixed">
+    <origin xyz="-0.0016 0.04006 -0.016" rpy="0 0 0"/>
+    <parent link="l3_link"/><child link="l3_foot"/>
+  </joint>
+  <joint name="l4_foot_fixed" type="fixed">
+    <origin xyz="-0.0016 -0.04006 -0.016" rpy="0 0 0"/>
+    <parent link="l4_link"/><child link="l4_foot"/>
+  </joint>
+  <joint name="imu_fixed" type="fixed">
+    <origin xyz="0 0 0.025" rpy="0 0 0"/>
+    <parent link="base"/><child link="imu"/>
+  </joint>
+  <!-- This frame is the exact MuJoCo camera frame: +x image-right, +y image-up, -z view. -->
+  <joint name="front_camera_fixed" type="fixed">
+    <origin xyz="0.048 0 0.030" rpy="1.22185449984 0 -1.57079632679"/>
+    <parent link="base"/><child link="front_camera"/>
+  </joint>
+</robot>

@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ["3.11", "3.12"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python }}
+          enable-cache: true
+      - run: uv sync --frozen --extra train --extra data --extra video --extra dev
+      - run: uv run ruff check src tests scripts integrations
+      - run: uv run python scripts/check_markdown_links.py
+      - run: uv run pytest
+      - run: uv build
+      - run: uvx twine check dist/*
+      - name: Test clean wheel outside checkout
+        shell: bash
+        run: |
+          uv venv /tmp/sesame-wheel --python ${{ matrix.python }}
+          VIRTUAL_ENV=/tmp/sesame-wheel uv pip install dist/*.whl
+          cd /tmp
+          /tmp/sesame-wheel/bin/sesame-ml validate-model --seconds 1
+          /tmp/sesame-wheel/bin/python -c "from sesame_ml.urdf import assert_urdf_equivalent; assert_urdf_equivalent(samples=8)"
+
+  playground-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.11"
+          enable-cache: true
+      - run: uv sync --frozen --extra playground --extra dev
+      - run: uv run pytest tests/test_playground_optional.py
+
+  numpy126-wheel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.11"
+          enable-cache: true
+      - run: uv build
+      - name: Exercise clean wheel with OpenPI/GR00T-compatible NumPy
+        shell: bash
+        run: |
+          uv venv /tmp/sesame-numpy126 --python 3.11
+          VIRTUAL_ENV=/tmp/sesame-numpy126 uv pip install numpy==1.26.4 dist/*.whl
+          cd /tmp
+          /tmp/sesame-numpy126/bin/sesame-ml validate-model --seconds 1
+          /tmp/sesame-numpy126/bin/python -c "from sesame_ml.urdf import assert_urdf_equivalent; assert_urdf_equivalent(samples=8)"
+          /tmp/sesame-numpy126/bin/sesame-ml-bridge --help

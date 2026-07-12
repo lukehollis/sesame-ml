@@ -1,0 +1,25 @@
+schema_version: 1
+robot_id: sesame-default
+calibrated: false
+joint_order: [R1, R2, L1, L2, R4, R3, L3, L4]
+stand_degrees: [135, 45, 45, 135, 0, 180, 0, 180]
+limits_degrees:
+  R1: [45, 180]
+  R2: [0, 135]
+  L1: [0, 135]
+  L2: [45, 180]
+  R4: [0, 180]
+  R3: [0, 180]
+  L3: [0, 180]
+  L4: [0, 180]
+direction: {R1: 1, R2: 1, L1: 1, L2: 1, R4: 1, R3: 1, L3: 1, L4: 1}
+subtrim_degrees: {R1: 0, R2: 0, L1: 0, L2: 0, R4: 0, R3: 0, L3: 0, L4: 0}
+pwm:
+  frequency_hz: 50
+  minimum_pulse_us: 732
+  maximum_pulse_us: 2929
+safety:
+  maximum_speed_degrees_s: 600
+  maximum_step_degrees: 12
+  action_timeout_ms: 250
+  disable_timeout_ms: 1000

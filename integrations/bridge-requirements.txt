@@ -1,0 +1,6 @@
+# Compatibility manifest for a dedicated exporter/bridge environment or an ephemeral
+# uv overlay. Do not install it into a vendor project's frozen environment.
+numpy>=1.26,<2
+Pillow>=10,<13
+msgpack>=1.1,<2
+websockets>=14,<17

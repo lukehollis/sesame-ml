@@ -1,0 +1,70 @@
+# Python bytecode and tool caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyright/
+.hypothesis/
+.tox/
+.nox/
+
+# Coverage and profiling output
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+*.prof
+
+# Virtual environments and local package managers
+.venv/
+venv/
+env/
+.uv-cache/
+
+# Packaging output
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Experiment, training, and generated dataset output
+artifacts/
+runs/
+wandb/
+mlruns/
+checkpoints/
+tensorboard/
+tb_logs/
+*.tfevents.*
+/datasets/
+/episodes/
+
+# JAX/XLA and native crash output
+.jax_cache/
+jax_cache/
+core
+core.*
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.local.yaml
+*.local.yml
+
+# Editors and notebooks
+.idea/
+.vscode/
+.ipynb_checkpoints/
+*.swp
+*.swo
+*~
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

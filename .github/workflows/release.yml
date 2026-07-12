@@ -1,0 +1,38 @@
+name: Release artifacts
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen --extra train --extra data --extra video --extra dev
+      - run: uv run python scripts/check_release_tag.py "${{ github.ref_name }}"
+      - run: uv run ruff check src tests scripts integrations
+      - run: uv run pytest
+      - run: uv run python scripts/check_markdown_links.py
+
+  build:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv build
+      - run: uvx twine check dist/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-distributions
+          path: dist/
+      - name: Create GitHub release with verified source and wheel artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${{ github.ref_name }}" dist/* --generate-notes

@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="980" viewBox="0 0 1440 980" role="img" aria-labelledby="title desc">
+  <title id="title">Orange Pi Zero 3W two-battery robot wiring reference</title>
+  <desc id="desc">Independent compute and servo positive power branches share one signal ground. The Orange Pi controls a USB UVC camera, IMU, and PCA9685 servo PWM board.</desc>
+  <defs>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#d97706"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"/>
+    </marker>
+    <style>
+      .title { font: 700 34px ui-sans-serif, system-ui, sans-serif; fill: #111827; }
+      .subtitle { font: 500 18px ui-sans-serif, system-ui, sans-serif; fill: #4b5563; }
+      .label { font: 700 18px ui-sans-serif, system-ui, sans-serif; fill: #111827; }
+      .body { font: 500 15px ui-sans-serif, system-ui, sans-serif; fill: #374151; }
+      .small { font: 500 13px ui-sans-serif, system-ui, sans-serif; fill: #4b5563; }
+      .box { stroke: #9ca3af; stroke-width: 2; rx: 14; }
+      .compute { fill: #fffbeb; }
+      .servo { fill: #fff1f2; }
+      .logic { fill: #eff6ff; }
+      .safe { fill: #ecfdf5; }
+      .power-compute { stroke: #d97706; stroke-width: 5; fill: none; marker-end: url(#arrow-orange); }
+      .power-servo { stroke: #dc2626; stroke-width: 5; fill: none; marker-end: url(#arrow-red); }
+      .signal { stroke: #2563eb; stroke-width: 4; fill: none; marker-end: url(#arrow-blue); }
+      .ground { stroke: #374151; stroke-width: 5; fill: none; }
+      .ground-drop { stroke: #374151; stroke-width: 3; fill: none; }
+      .dash { stroke-dasharray: 8 7; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="980" fill="#ffffff"/>
+  <text class="title" x="64" y="58">One computer, two independent power branches</text>
+  <text class="subtitle" x="64" y="92">Orange Pi Zero 3W + USB UVC camera + PCA9685 + IMU + eight servos</text>
+
+  <line x1="64" y1="124" x2="124" y2="124" class="power-compute"/>
+  <text class="small" x="138" y="129">regulated compute power</text>
+  <line x1="350" y1="124" x2="410" y2="124" class="power-servo"/>
+  <text class="small" x="424" y="129">regulated servo power</text>
+  <line x1="630" y1="124" x2="690" y2="124" class="signal"/>
+  <text class="small" x="704" y="129">USB / I2C / PWM signal</text>
+  <line x1="920" y1="124" x2="980" y2="124" class="ground"/>
+  <text class="small" x="996" y="129">common signal ground</text>
+
+  <text class="label" x="64" y="177" fill="#92400e">COMPUTE BRANCH</text>
+  <rect class="box compute" x="64" y="198" width="210" height="104"/>
+  <text class="label" x="169" y="228" text-anchor="middle">Battery A</text>
+  <text class="body" x="169" y="252" text-anchor="middle">documented 2S pack</text>
+  <text class="small" x="169" y="276" text-anchor="middle">PC003: bench use only</text>
+
+  <rect class="box safe" x="323" y="218" width="112" height="64"/>
+  <text class="label" x="379" y="246" text-anchor="middle">Fuse</text>
+  <text class="small" x="379" y="268" text-anchor="middle">at battery +</text>
+
+  <rect class="box safe" x="486" y="218" width="112" height="64"/>
+  <text class="label" x="542" y="246" text-anchor="middle">Switch</text>
+  <text class="small" x="542" y="268" text-anchor="middle">compute</text>
+
+  <rect class="box compute" x="649" y="198" width="184" height="104"/>
+  <text class="label" x="741" y="228" text-anchor="middle">5 V regulator</text>
+  <text class="body" x="741" y="252" text-anchor="middle">5.0 V, ≥3 A continuous</text>
+  <text class="small" x="741" y="276" text-anchor="middle">plus current/thermal margin</text>
+
+  <rect class="box logic" x="884" y="184" width="260" height="132"/>
+  <text class="label" x="1014" y="218" text-anchor="middle">Orange Pi Zero 3W</text>
+  <text class="body" x="1014" y="244" text-anchor="middle">USB-C DC input</text>
+  <text class="body" x="1014" y="268" text-anchor="middle">Linux + Wi-Fi + SW watchdog</text>
+  <text class="small" x="1014" y="293" text-anchor="middle">VLA inference stays offboard</text>
+
+  <path d="M274 250 H323" class="power-compute"/>
+  <path d="M435 250 H486" class="power-compute"/>
+  <path d="M598 250 H649" class="power-compute"/>
+  <path d="M833 250 H884" class="power-compute"/>
+
+  <rect class="box logic" x="1210" y="184" width="170" height="104"/>
+  <text class="label" x="1295" y="218" text-anchor="middle">USB UVC camera</text>
+  <text class="body" x="1295" y="244" text-anchor="middle">V4L2 device</text>
+  <text class="small" x="1295" y="268" text-anchor="middle">strain-relieved cable</text>
+  <path d="M1144 226 H1210" class="signal"/>
+
+  <rect class="box logic" x="1210" y="324" width="170" height="94"/>
+  <text class="label" x="1295" y="355" text-anchor="middle">Policy host</text>
+  <text class="body" x="1295" y="381" text-anchor="middle">Ubuntu / CUDA</text>
+  <text class="small" x="1295" y="403" text-anchor="middle">trusted Wi-Fi LAN</text>
+  <path d="M1144 284 C1190 284 1170 371 1210 371" class="signal dash"/>
+
+  <text class="label" x="64" y="474" fill="#991b1b">SERVO BRANCH</text>
+  <rect class="box servo" x="64" y="496" width="210" height="104"/>
+  <text class="label" x="169" y="526" text-anchor="middle">Battery B</text>
+  <text class="body" x="169" y="550" text-anchor="middle">high-current servo pack</text>
+  <text class="small" x="169" y="574" text-anchor="middle">rated pack + BMS + charger</text>
+
+  <rect class="box safe" x="323" y="516" width="112" height="64"/>
+  <text class="label" x="379" y="544" text-anchor="middle">Fuse</text>
+  <text class="small" x="379" y="566" text-anchor="middle">at battery +</text>
+
+  <rect class="box safe" x="486" y="506" width="130" height="84"/>
+  <text class="label" x="551" y="536" text-anchor="middle">Servo cutoff</text>
+  <text class="small" x="551" y="560" text-anchor="middle">accessible</text>
+  <text class="small" x="551" y="578" text-anchor="middle">DC-rated</text>
+
+  <rect class="box servo" x="667" y="496" width="184" height="104"/>
+  <text class="label" x="759" y="526" text-anchor="middle">Servo regulator</text>
+  <text class="body" x="759" y="550" text-anchor="middle">exact servo voltage</text>
+  <text class="small" x="759" y="574" text-anchor="middle">measured cont. + pulse</text>
+
+  <rect class="box logic" x="902" y="484" width="242" height="128"/>
+  <text class="label" x="1023" y="516" text-anchor="middle">Rated servo PDB</text>
+  <text class="body" x="1023" y="542" text-anchor="middle">direct V+ / high-current GND</text>
+  <text class="body" x="1023" y="566" text-anchor="middle">regulator → PDB → servos</text>
+  <text class="small" x="1023" y="590" text-anchor="middle">PCA breakout is not power path</text>
+
+  <rect class="box servo" x="1210" y="484" width="170" height="128"/>
+  <text class="label" x="1295" y="516" text-anchor="middle">Eight servos</text>
+  <text class="body" x="1295" y="542" text-anchor="middle">V+ / GND / PWM</text>
+  <text class="small" x="1295" y="568" text-anchor="middle">rated voltage only</text>
+  <text class="small" x="1295" y="590" text-anchor="middle">jam current included</text>
+
+  <path d="M274 548 H323" class="power-servo"/>
+  <path d="M435 548 H486" class="power-servo"/>
+  <path d="M616 548 H667" class="power-servo"/>
+  <path d="M851 548 H902" class="power-servo"/>
+  <path d="M1144 548 H1210" class="power-servo"/>
+
+  <rect class="box logic" x="902" y="348" width="242" height="94"/>
+  <text class="label" x="1023" y="379" text-anchor="middle">PCA9685 + BNO085</text>
+  <text class="body" x="1023" y="405" text-anchor="middle">3.3 V-compatible I2C logic</text>
+  <text class="small" x="1023" y="428" text-anchor="middle">software PWM timeout only</text>
+  <path d="M975 316 V356" class="signal"/>
+  <path d="M1055 316 V348" class="signal"/>
+  <path d="M1144 414 C1185 414 1175 582 1210 582" class="signal"/>
+  <text class="small" x="1160" y="606">PWM × 8</text>
+
+  <path d="M40 680 H1380" class="ground"/>
+  <path d="M169 302 H40 V680" class="ground-drop"/>
+  <path d="M741 302 H870 V680" class="ground-drop"/>
+  <path d="M1014 316 H1180 V680" class="ground-drop"/>
+  <path d="M169 600 V680" class="ground-drop"/>
+  <path d="M759 600 V680" class="ground-drop"/>
+  <path d="M1023 612 V680" class="ground-drop"/>
+  <path d="M1295 612 V680" class="ground-drop"/>
+  <path d="M1116 442 H1170 V680" class="ground-drop"/>
+  <circle cx="1023" cy="680" r="11" fill="#374151"/>
+  <text class="small" x="1042" y="665">power star at PDB / regulator negative</text>
+  <text class="label" x="64" y="718">COMMON SIGNAL GROUND</text>
+  <text class="small" x="360" y="716">Servo returns go straight to the power star; logic joins there through a thin reference.</text>
+
+  <text class="label" x="64" y="768">Critical rules</text>
+  <rect x="64" y="788" width="1316" height="112" rx="14" fill="#f9fafb" stroke="#d1d5db" stroke-width="2"/>
+  <text class="body" x="92" y="822">1. Only the grounds join. Never join compute 5 V to servo V+.</text>
+  <text class="body" x="92" y="852">2. Use a rated PDB; never route servo current through Orange Pi, breadboard, logic wiring, or an unrated PCA breakout.</text>
+  <text class="body" x="92" y="882">3. Software cannot stop an SBC/I2C hang: retain the cutoff and add independent OE/power watchdog hardware if required.</text>
+</svg>

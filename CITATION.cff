@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use Sesame ML in research, cite the software and the upstream Sesame Robot Project."
+title: "Sesame ML: simulation, learning, planning, and VLA control for the Sesame quadruped"
+type: software
+authors:
+  - name: "Sesame ML contributors"
+version: 0.1.0
+date-released: 2026-07-12
+license: Apache-2.0
+keywords:
+  - quadruped robotics
+  - MuJoCo
+  - reinforcement learning
+  - vision-language-action models
+  - sim-to-real
+references:
+  - type: software
+    title: "The Sesame Robot Project"
+    authors:
+      - family-names: Todd
+        given-names: Dorian
+    url: "https://github.com/dorianborian/sesame-robot"
